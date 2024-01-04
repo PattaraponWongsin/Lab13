@@ -17,47 +17,24 @@ int main(){
     cout << "\nMin = " << B[5];
     return 0;
 }
-void stat(const double arr[], int size, double result[]) {
-   
-    double sum = 0.0;
-    double SquaredDiff = 0.0;
-    double product = 1.0;
-    double reciprocalSum = 0.0;
-    double maxVal = arr[0];
-    double minVal = arr[0];
-
-
-    for (int i = 0; i < size; ++i) {
-        sum += arr[i];
-        product *= arr[i];
-        reciprocalSum += 1.0 / arr[i];
-        if (arr[i] > maxVal) {
-            maxVal = arr[i];
-        }
-        else if (arr[i] < minVal) {
-            minVal = arr[i];
-        }
+void stat(const double A[], int N, double B[]) {
+    B[0] = A[0];
+    B[1] = A[0] * A[0];
+    B[2] = A[0];
+    B[3] = 1.0 / A[0];
+    B[4] = A[0];
+    B[5] = A[0];    
+    for (int i = 1; i < N; i++) {
+        B[0] += A[i];
+        B[1] += A[i] * A[i];
+        B[2] *= A[i];
+        B[3] += 1.0 / A[i];
+        if (A[i] > B[4]) B[4] = A[i];
+        if (A[i] < B[5]) B[5] = A[i];
     }
-
-    double arithmeticMean = sum / size;
-    result[0] = arithmeticMean;
-
-   
-    double meanSquared = sum / size;
-    for (int i = 0; i < size; ++i) {
-        SquaredDiff += pow(arr[i] - meanSquared, 2);
-    }
-    double standardDeviation = sqrt(SquaredDiff / size);
-    result[1] = standardDeviation;
-
+    B[0] /= N;
+    B[1] = sqrt((1.0/N * B[1]) - (B[0] * B[0]));
+    B[2] = pow(B[2], 1.0/N);
+    B[3] = N / B[3];
     
-    double geometricMean = pow(product, 1.0 / size);
-    result[2] = geometricMean;
-
-    double harmonicMean = size / reciprocalSum;
-    result[3] = harmonicMean;
-
- 
-    result[4] = maxVal;
-    result[5] = minVal;
 }
